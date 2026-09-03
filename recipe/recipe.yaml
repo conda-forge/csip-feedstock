@@ -1,0 +1,45 @@
+schema_version: 1
+
+context:
+  version: "1.1.17"
+
+package:
+  name: csip
+  version: ${{ version }}
+
+source:
+  url: https://pypi.org/packages/source/c/csip/csip-${{ version }}.tar.gz
+  sha256: 47dabf3a96dee37a06bf7882feed8cbf22044033883d1f2725741f1b50afb2b2
+
+build:
+  number: 0
+  noarch: python
+  script: ${{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
+
+requirements:
+  host:
+    - python ${{ python_min }}.*
+    - pip
+    - setuptools
+  run:
+    - python >=${{ python_min }}
+    - requests
+
+tests:
+  - python:
+      imports:
+        - csip
+      pip_check: true
+      python_version:
+        - ${{ python_min }}
+        - "*"
+
+about:
+  summary: CSIP client library
+  license: MIT
+  license_file: LICENSE
+  homepage: http://alm.engr.colostate.edu/cb/project/csip
+
+extra:
+  recipe-maintainers:
+    - akrherz
